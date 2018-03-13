@@ -1,203 +1,4 @@
 
-# coding: utf-8
-
-# # **Basic Introduction to Numpy**
-
-# In[2]:
-
-import numpy as np
-
-
-# # Initialize array
-
-# In[2]:
-
-#np.zeros(5)
-
-
-# In[3]:
-
-#np.zeros((5,5))
-
-
-# In[4]:
-
-#np.ones((5,5))
-
-
-# In[5]:
-
-#np.array([3,4,3,4,3,4])
-
-
-# # Properties
-
-# In[6]:
-
-#tmpArr = np.zeros((5,5))
-
-
-# In[7]:
-
-# shape - size of each dimension
-#tmpArr.shape
-
-
-# In[8]:
-
-# number of dimenstions
-#tmpArr.ndim
-
-
-# In[9]:
-
-# type of array
-#tmpArr.dtype.name
-
-
-# # Accessing
-
-# In[10]:
-
-#tmpArr[2,3]
-
-
-# In[11]:
-
-#tmpArr[4,2] = -1
-
-
-# In[12]:
-
-#how does 4,2 correlate to 5,3 probably starts 
-#tmpArr
-
-
-# # Slicing
-
-# In[13]:
-
-#tmpArr[4, :]
-
-
-# In[14]:
-
-#tmpArr[:, 2]
-
-
-# In[15]:
-
-#tmpArr2 = np.array([100,200,300,400,500])
-#tmpArr2[[2,4]]
-
-
-# In[16]:
-
-#tmpArr
-
-
-# In[17]:
-
-tmpArr.nonzero()
-
-
-# In[18]:
-
-tmpArr[tmpArr.nonzero()]
-
-
-# ## Basic Manipulations
-
-# In[19]:
-
-tmpArr2 = np.array([1,2,3,4,5,6,7,8,9])
-tmpArr2
-
-
-# In[20]:
-
-# reshape 1D array to matrix
-tmpMat = tmpArr2.reshape((3,3))
-tmpMat
-
-
-# In[21]:
-
-# transpose matrix
-tmpMatTranspose = tmpMat.T
-tmpMatTranspose
-
-
-# In[22]:
-
-tmpMat.dot(tmpMatTranspose)
-
-
-# In[23]:
-
-# convert array to float32
-np.asarray(tmpMat, np.float32)
-
-
-# In[24]:
-
-# Print original tmpArr2
-print(tmpArr2)
-
-# Define a function: if item is even - keep its value, otherwise change it to 0
-vf = np.vectorize(lambda x: x if x % 2 == 0 else 0)
-
-# Apply it over tmpArr2
-newTmpArr2 = vf(tmpArr2)
-
-# Print the new array
-print(newTmpArr2)
-
-
-# ## Matrix Calculations
-
-# In[25]:
-
-tmpArr3 = np.array([1,2,3])
-tmpArr4 = np.array([4,5,6])
-
-
-# In[26]:
-
-tmpArr3 + tmpArr4
-
-
-# In[27]:
-
-tmpArr3 * tmpArr4
-
-
-# In[28]:
-
-tmpArr3 / tmpArr4
-
-
-# In[29]:
-
-# 1*4 + 2*5 + 3*6
-tmpArr3.dot(tmpArr4)
-
-
-# In[30]:
-
-tmpArr3.sum()
-
-
-# In[31]:
-
-tmpArr3.mean()
-
-
-# In[32]:
-
-tmpArr3.var()
-
-
 # # Recommender for MovieLens
 
 # ### Getting MovieLens data
@@ -609,17 +410,8 @@ for avgScore, simScore in rmseList:
     print("%.3lf\t%.3lf" % (avgScore, simScore))
 
 
-# #  Assignment 3
-# ## 1
-# #### Q1. Similarity in User-User Collaborative Filtering
-# (a) In the user-user collaborative filtering example, report comparative results for both ‘euclidean’ distance and ‘cosine’ distance on RMSE. Be careful how you convert ‘euclidean’ distance to a [0, 1] similarity for use in the recommender. Which metric works better? Why?
-# 
-# A. Cosine similarity performed better than the eucledian distance as excpected. This is because euclidean distance takes into consideration the lenght whereas the cosine distance depends on the angle and doesnt care about the distance. 
-# 
-# (b) Try an additional third metric and justify the results observed with your choice. (Google for “pairwise distance scikit learn” for a list of distance metrics, more Googling will tell you what they mean.)
-# 
 
-# In[21]:
+
 
 datasetsFileNames = [('u1.base', 'u1.test'),
                      ('u2.base', 'u2.test'),
@@ -715,34 +507,6 @@ for simScore in rmseList_cityblock:
 print("The 95% CI for cityblock is",(st.t.interval(0.95, len(rmseList_cityblock)-1, loc=np.mean(rmseList_cityblock), scale=st.sem(rmseList_cityblock))))
 
 
-# ## 2
-# #### Q2. Item-Item Collaborative Filtering
-# (a) Leveraging the user-user collaborative filtering example, implement an item-item based approach in a Python function called:
-# def predictByItemSimilarity(trainSet, numUsers, numItems, similarity).
-# Show your solution in your IPython notebook.
-# (b) Report comparative RMSE results between user-user and item-item based collaborative filtering for cosine similarity. Can you explain why one method may have performed better?
-# Consider the average number of ratings per user and the average number of ratings per item.
-# 
-# B. more data per user. The User-user similarity performs better than the item-item similarity but not by much. This might be the case because of the varied dataset that has been provided to us. It covers movies from all genres hence the item item might have problems tryin to judge the similarities between them.data is biased towards the users as compared to the items. on average a user rated a 100 items. more users than items. 
-# 
-# Sim_cosine
-# 1.026
-# 1.021
-# 1.013
-# 1.009
-# 1.016
-# the average is  1.01735412166
-# The 95% CI for cosine is (1.0090130802261479, 1.0256951630950137)
-# 
-# Item_Item_Sim_cosine
-# 1.038
-# 1.021
-# 1.010
-# 1.014
-# 1.018
-# the average is  1.02008290011
-# The 95% CI for cosine is (1.006824268625073, 1.0333415315874224)
-
 # In[22]:
 
 def predictByItemSimilarity(trainSet, numUsers, numItems, similarity):
@@ -806,23 +570,6 @@ for simScore in rmseList_item:
 print ("the average is ", np.mean(rmseList_item))
 print("The 95% CI for cosine is",(st.t.interval(0.95, len(rmseList_item)-1, loc=np.mean(rmseList_item), scale=st.sem(rmseList_item))))
 
-
-# ## 3
-# #### Q3. Performance Comparison
-# (a) Compare all the recommenders in the lab and from Q1 and Q2 (using cosine similarity) on
-# RMSE, P@k, and R@k. Show the results.
-# (b) Some baselines cannot be evaluated with some metrics? Which ones and why?
-# RMSE for popularity would be useless as this method aims to rank items relative to eachother and ignores the actual rank itself, which will cause an inflated RMSE.
-# P@k and R@k for averaging cannot be evaluated as we cannot rank items if they all have similar values
-# 
-# (c) What is the best algorithm for each of RMSE, P@k, and R@k? Can you explain why this
-# may be?
-# for rmse is best user-user.
-# for p@k and r@k its hard to determine which ones better
-# 
-# (d) Does good performance on RMSE imply good performance on ranking metrics and vice versa?
-# Why / why not?
-# Not necessarily rmse only gives an overall ranking, but does not consider context. rmse is good for ratings but not rankings. 
 
 # In[33]:
 
@@ -991,15 +738,6 @@ print("k\tP@k\tR@k")
 for k in [25, 50, 100, 250, 500, 940]:
     print("%d\t%.3lf\t%.3lf" % (k, avgPrecisionAtK(curTestUserItemMatrix_i_5.T, curItemSimPreiction_i_5 , k), avgRecallAtK(curTestUserItemMatrix_i_5.T ,curItemSimPreiction_i_5 , k)))
 
-
-# ## 4
-# ### Q4. Similarity Evaluation
-# (a) Go through the list of movies and pick three not-so-popular movies that you know well. I.e.,do not choose “Star Wars” and note that we expect everyone in the class to have chosen different movies. For each of these three movies, list the top 5 most similar movie names according to item-item cosine similarity (you might use a function like numpy argsort).
-# 
-# (b) Can you justify these similarities? Why or why not? Consider that similarity is determined
-# indirectly by users who rated both items.
-# (b ans) It was good for the more popular movies but not so good with the obscure movies. 
-
 # In[25]:
 
 curTrainDF_i_K = pd.read_csv(os.path.join(MOVIELENS_DIR, 'u1.base'), sep='\t', names=fields)
@@ -1062,35 +800,4 @@ userTopK(curItemSimilarity_i_K, moviesDF, 40, 5)
 
 #Top K using The Godfather
 userTopK(curItemSimilarity_i_K, moviesDF, 126, 5)
-
-
-# # 5
-# #### (MIE1513 Only) Q5. Testing with different user types
-# (a) Look at a histogram of the number of ratings per user. (Google for “scipy histogram”.) Pick a threshold τ that you believe divides users with few ratings and those with a moderate to
-# large number of ratings. What τ did you choose? Repeat Q3, but in each of the following
-# two cases testing on only users that meet the following criteria:
-# 
-# (i) Above threshold τ of liked items
-# (ii) Below threshold τ of liked items
-# 
-# Are there any differences between recommender performance for (i) and (ii)? Can you explain
-# them?
-
-# In[30]:
-
-get_ipython().magic(u'matplotlib inline')
-ratingDF_histogram = ratingDF[['userID',  'rating']]
-th = ratingDF_histogram.groupby(['userID']).count()
-th
-
-
-
-# In[31]:
-
-th['rating'].hist()
-
-
-# In[ ]:
-
-
 
